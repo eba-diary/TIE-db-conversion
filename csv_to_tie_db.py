@@ -7,7 +7,7 @@
 import sqlite3
 import csv
 
-DATABASE_FILE = "travelers_in_egypt.test.sqlite3"
+DATABASE_FILE = "travelers_in_egypt.sqlite3"
 CSV_FILE = "travelers_in_egypt.csv"
 CSV_COLUMNS = [
     "DATE OF TRAVEL",
