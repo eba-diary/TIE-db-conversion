@@ -26,6 +26,6 @@ ocr_lines = ocr_file.readlines()
 ocr_file.close()
 
 ocr_lines = filter(lambda line: not is_page_header(line), ocr_lines)
-ocr_text = "\n".join(ocr_lines)
+ocr_text = "".join(ocr_lines)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
-print(ocr_text)
+entry_fields = ocr_text.split("\n\n")
