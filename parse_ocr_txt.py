@@ -18,7 +18,7 @@ def is_page_header(line):
     e.g. "278 Nile Notes of a Howadji" (even pages) or "1880-1889 - 279 " (odd pages)
     """
     even_page =  bool(re.match(r"(\d{1,3})( )(Nile Notes of a Howadji)( ?)", line))
-    odd_page =  bool(re.match(r"(\d{4}-\d{4})( )(\d{3})( ?)", line))
+    odd_page =  bool(re.match(r"(\d{4}-\d{4})( )(\d{3})( ?)$", line))
     return even_page or odd_page
 
 ocr_file = open(OCR_FILENAME)
