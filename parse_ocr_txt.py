@@ -6,7 +6,7 @@
 
 import re
 
-FIRST_ENTRY_NBR = 789           # First entry number to parse. Used for error checking.
+FIRST_ENTRY_NBR = 789           # First entry number to parse.
 OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
 
 # keys of the dictionaries that represent Entries and Works respectively
