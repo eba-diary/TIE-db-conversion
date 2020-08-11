@@ -28,11 +28,8 @@ ocr_file.close()
 ocr_lines = filter(lambda line: not is_page_header(line), ocr_lines)
 ocr_text = "".join(ocr_lines)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
-print(ocr_text)
 entry_paragraphs = ocr_text.split("\n\n")
 
-#read entry title
-#read first work paragraph
 #if the next paragraph doesn't start with "Date of Travel"
     #read second work paragraph
 #read date of travel paragraph
@@ -40,3 +37,20 @@ entry_paragraphs = ocr_text.split("\n\n")
 #if the next paragraph isn't an entry title
     #read second annotation
 
+entries = []
+
+#read entry title
+paragraph = entry_paragraphs.pop(0)
+entry_nbr = FIRST_ENTRY_NBR
+entry = dict.fromkeys(entry_keys)
+lead = str(entry_nbr)
+if len(lead) < 4: lead = "0" + lead
+if not paragraph.startswith(lead):
+    raise RuntimeError("Expected start of entry {0} but got '{1}'".format(current_entry_nbr, paragraph))
+entry["number"] = entry_nbr
+entry["name"] = paragraph[5:]
+
+#read first work paragraph
+paragraph = entry_paragraphs.pop(0)
+
+print(entry)
