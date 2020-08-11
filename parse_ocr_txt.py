@@ -9,20 +9,9 @@ import re
 FIRST_ENTRY_NBR = 789           # First entry number to parse. Used for error checking.
 OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
 
-class Entry:
-    """Represents an entry in the book"""
-    def __init__(self, number, name, works, travel_date, nationality):
-        self.number = number
-        self.name = name
-        self.works = []
-        self.travel_date = travel_date
-        self.nationality = nationality
-
-class Work:
-    """Represents an author's work/publication"""
-    def __init__(self, title, annotation):
-        self.title = title
-        self.annotation = annotation
+# keys of the dictionaries that represent Entries and Works respectively
+entry_keys = [number, name, works, travel_date, nationality]
+work_keys = [title, annotation]
 
 def is_page_header(line):
     """Return True if the given line of text is a page header
@@ -37,6 +26,7 @@ ocr_lines = ocr_file.readlines()
 ocr_file.close()
 
 entries = []
-current_entry = FIRST_ENTRY_NBR
+next_entry_nbr = FIRST_ENTRY_NBR
+current_entry = dict.fromkeys(entry_keys)
 for line in ocr_lines:
     print(line)
