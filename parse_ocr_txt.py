@@ -29,4 +29,14 @@ ocr_lines = filter(lambda line: not is_page_header(line), ocr_lines)
 ocr_text = "".join(ocr_lines)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 print(ocr_text)
-entry_fields = ocr_text.split("\n\n")
+entry_paragraphs = ocr_text.split("\n\n")
+
+#read entry title
+#read first work paragraph
+#if the next paragraph doesn't start with "Date of Travel"
+    #read second work paragraph
+#read date of travel paragraph
+#read first annotation
+#if the next paragraph isn't an entry title
+    #read second annotation
+
