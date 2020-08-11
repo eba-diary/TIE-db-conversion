@@ -10,8 +10,8 @@ FIRST_ENTRY_NBR = 789           # First entry number to parse.
 OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
 
 # keys of the dictionaries that represent Entries and Works respectively
-entry_keys = [number, name, works, travel_date, nationality]
-work_keys = [title, annotation]
+entry_keys = ["number", "name", "works", "travel_date", "nationality"]
+work_keys = ["title", "annotation"]
 
 def is_page_header(line):
     """Return True if the given line of text is a page header
@@ -25,8 +25,7 @@ ocr_file = open(OCR_FILENAME)
 ocr_lines = ocr_file.readlines()
 ocr_file.close()
 
-entries = []
-next_entry_nbr = FIRST_ENTRY_NBR
-current_entry = dict.fromkeys(entry_keys)
-for line in ocr_lines:
-    print(line)
+ocr_lines = filter(lambda line: not is_page_header(line), ocr_lines)
+ocr_text = "\n".join(ocr_lines)
+ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
+print(ocr_text)
