@@ -28,6 +28,7 @@ ocr_file.close()
 ocr_lines = filter(lambda line: not is_page_header(line), ocr_lines)
 ocr_text = "".join(ocr_lines)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
+ocr_text.rstrip()
 entry_paragraphs = ocr_text.split("\n\n")
 
 entries = []
@@ -76,4 +77,3 @@ else:
     entry["works"][1]["annotation"] = paragraph.replace("\n", "")
 
 entry_nbr += 1
-print(entry)
