@@ -13,20 +13,20 @@ OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
 entry_keys = ["number", "name", "works", "travel_date", "nationality"]
 work_keys = ["title", "annotation"]
 
-def is_page_header(line):
-    """Return True if the given line of text is a page header
-    e.g. "278 Nile Notes of a Howadji" (even pages) or "1880-1889 - 279 " (odd pages)
-    """
-    even_page =  bool(re.match(r"(\d| )+(Nile Notes of a Howadji)( ?)", line))
-    odd_page =  bool(re.match(r"(\d{4}-\d{4})( )(\d{3})( ?)$", line))
-    return even_page or odd_page
+# def is_page_header(line):
+#     """Return True if the given line of text is a page header
+#     e.g. "278 Nile Notes of a Howadji" (even pages) or "1880-1889 - 279 " (odd pages)
+#     """
+#     even_page =  bool(re.match(r"(\d| )+(Nile Notes of a Howadji)( ?)", line))
+#     odd_page =  bool(re.match(r"(\d{4}-\d{4})( )(\d{3})( ?)$", line))
+#     return even_page or odd_page
 
 ocr_file = open(OCR_FILENAME)
-ocr_lines = ocr_file.readlines()
+ocr_text = ocr_file.read()
 ocr_file.close()
 
-ocr_lines = [line for line in ocr_lines if not is_page_header(line)]
-ocr_text = "".join(ocr_lines)
+ocr_text = re.sub(r"(\n+)(\d{4}-\d{4})( )(\d{3})( ?)(\n+)", "", ocr_text)
+ocr_text = re.sub(r"(\n+)(\d| )+(Nile Notes of a Howadji)( ?)(\n+)", "", ocr_text)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 ocr_text.rstrip()
 entry_paragraphs = ocr_text.split("\n\n")
