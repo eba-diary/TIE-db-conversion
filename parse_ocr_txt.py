@@ -32,48 +32,51 @@ ocr_text.rstrip()
 entry_paragraphs = ocr_text.split("\n\n")
 
 entries = []
-
-#prepare entry
-entry = dict.fromkeys(entry_keys)
-entry["works"] = []
-
-#read entry title
-paragraph = entry_paragraphs.pop(0)
 entry_nbr = FIRST_ENTRY_NBR
-lead = str(entry_nbr)
-if len(lead) < 4: lead = "0" + lead
-if not paragraph.startswith(lead):
-    raise RuntimeError("Expected start of entry {0} but got '{1}'".format(current_entry_nbr, paragraph))
-entry["number"] = entry_nbr
-entry["name"] = paragraph[5:]
+while len(entry_paragraphs) > 0:
+    #prepare entry
+    entry = dict.fromkeys(entry_keys)
+    entry["works"] = []
 
-#read first work paragraph
-paragraph = entry_paragraphs.pop(0)
-work = dict.fromkeys(work_keys)
-work["title"] = paragraph.replace("\n", "")
-entry["works"].append(work)
+    #read entry title
+    paragraph = entry_paragraphs.pop(0)
+    lead = str(entry_nbr)
+    if len(lead) < 4: lead = "0" + lead
+    if not paragraph.startswith(lead):
+        raise RuntimeError("Expected start of entry {0} but got '{1}'".format(entry_nbr, paragraph))
+    entry["number"] = entry_nbr
+    entry["name"] = paragraph[5:]
 
-paragraph = entry_paragraphs.pop(0)
-if not paragraph.startswith("Date of Travel"):
-    #read second work paragraph
+    #read first work paragraph
+    paragraph = entry_paragraphs.pop(0)
     work = dict.fromkeys(work_keys)
     work["title"] = paragraph.replace("\n", "")
     entry["works"].append(work)
+
     paragraph = entry_paragraphs.pop(0)
+    if not paragraph.startswith("Date of Travel"):
+        #read second work paragraph
+        work = dict.fromkeys(work_keys)
+        work["title"] = paragraph.replace("\n", "")
+        entry["works"].append(work)
+        paragraph = entry_paragraphs.pop(0)
 
-#read date of travel paragraph
-entry["travel_date"] = paragraph[len("Date of Travel: ") : paragraph.index("Nationality")].strip()
-entry["nationality"] = paragraph[paragraph.index("Nationality: ") + len("Nationality: "):].strip()
+    #read date of travel paragraph
+    entry["travel_date"] = paragraph[len("Date of Travel: ") : paragraph.index("Nationality")].strip()
+    entry["nationality"] = paragraph[paragraph.index("Nationality: ") + len("Nationality: "):].strip()
 
-#read first annotation
-paragraph = entry_paragraphs.pop(0)
-entry["works"][0]["annotation"] = paragraph.replace("\n", "")
-if re.match(r"\d{4} ", entry_paragraphs[0]): #if the next paragraph is an entry title
-    if len(entry["works"]) == 2:
+    #read first annotation
+    paragraph = entry_paragraphs.pop(0)
+    entry["works"][0]["annotation"] = paragraph.replace("\n", "")
+    if re.match(r"\d{4} ", entry_paragraphs[0]): #if the next paragraph is an entry title
+        if len(entry["works"]) == 2:
+            entry["works"][1]["annotation"] = paragraph.replace("\n", "")
+    else:
+        #read second annotation
+        paragraph = entry_paragraphs.pop(0)
         entry["works"][1]["annotation"] = paragraph.replace("\n", "")
-else:
-    #read second annotation
-    paragraph = entry_paragraphs.pop(0)
-    entry["works"][1]["annotation"] = paragraph.replace("\n", "")
+    entries.append(entry)
+    entry_nbr += 1
 
-entry_nbr += 1
+print(len(entries))
+print("DONE")
