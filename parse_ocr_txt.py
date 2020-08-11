@@ -30,19 +30,18 @@ ocr_text = "".join(ocr_lines)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 entry_paragraphs = ocr_text.split("\n\n")
 
-#if the next paragraph doesn't start with "Date of Travel"
-    #read second work paragraph
-#read date of travel paragraph
-#read first annotation
 #if the next paragraph isn't an entry title
     #read second annotation
 
 entries = []
 
+#prepare entry
+entry = dict.fromkeys(entry_keys)
+entry["works"] = []
+
 #read entry title
 paragraph = entry_paragraphs.pop(0)
 entry_nbr = FIRST_ENTRY_NBR
-entry = dict.fromkeys(entry_keys)
 lead = str(entry_nbr)
 if len(lead) < 4: lead = "0" + lead
 if not paragraph.startswith(lead):
@@ -52,5 +51,25 @@ entry["name"] = paragraph[5:]
 
 #read first work paragraph
 paragraph = entry_paragraphs.pop(0)
+work = dict.fromkeys(work_keys)
+work["title"] = paragraph
+entry["works"].append(work)
+
+#if the next paragraph doesn't start with "Date of Travel"
+paragraph = entry_paragraphs.pop(0)
+if not paragraph.startswith("Date of Travel"):
+    #read second work paragraph
+    work = dict.fromkeys(work_keys)
+    work["title"] = paragraph
+    entry["works"].append(work)
+    paragraph = entry_paragraphs.pop(0)
+
+#read date of travel paragraph
+entry["travel_date"] = paragraph[len("Date of Travel: ") : paragraph.index("Nationality")].strip()
+entry["nationality"] = paragraph[paragraph.index("Nationality: ") + len("Nationality: "):].strip()
+
+#read first annotation
+paragraph = entry_paragraphs.pop(0)
+
 
 print(entry)
