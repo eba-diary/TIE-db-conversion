@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""parse_ocr_txt.py: Parse raw ORC'd text of Kalfatovik's Nile Notes of a Howadji
+"""parse_ocr_txt.py: Parse raw OCR'd text of Kalfatovik's Nile Notes of a Howadji
 """
 
 import re
@@ -89,4 +89,5 @@ failed_entry_nbrs = [nbr for nbr in range(FIRST_ENTRY_NBR, LAST_ENTRY_NBR + 1) i
 
 print("ok", len(entries))
 print("failed", len(failed_entry_nbrs))
+print(failed_entry_nbrs)
 print("DONE")
