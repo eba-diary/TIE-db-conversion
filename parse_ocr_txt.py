@@ -26,10 +26,11 @@ ocr_file = open(OCR_FILENAME)
 ocr_text = ocr_file.read()
 ocr_file.close()
 
-ocr_text = re.sub(r"(\n+)(\d{4}-\d{4})( )(\d{3})( ?)(\n+)", "", ocr_text)
-ocr_text = re.sub(r"(\n+)(\d| )+(Nile Notes of a Howadji)( ?)(\n+)", "", ocr_text)
+ocr_text = re.sub(r"(\n+)(\d{4}-\d{4})( )(\d{3})( ?)", "", ocr_text)
+ocr_text = re.sub(r"(\n+)(\d| )+(Nile Notes of a Howadji)( ?)", "", ocr_text)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 ocr_text.rstrip()
+print(ocr_text)
 entry_paragraphs = ocr_text.split("\n\n")
 
 entries = []
@@ -95,6 +96,6 @@ while len(entry_paragraphs) > 0:
 
 failed_entry_nbrs = [nbr for nbr in range(FIRST_ENTRY_NBR, LAST_ENTRY_NBR + 1) if nbr not in good_entry_nbrs]
 
-print(len(entries))
-print(failed_entry_nbrs)
+print("ok", len(entries))
+print("failed", len(failed_entry_nbrs))
 print("DONE")
