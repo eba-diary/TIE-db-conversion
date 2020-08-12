@@ -30,7 +30,6 @@ ocr_text = re.sub(r"(\n+)(\d{4}-\d{4})( )(\d{3})( ?)", "", ocr_text)
 ocr_text = re.sub(r"(\n+)(\d| )+(Nile Notes of a Howadji)( ?)", "", ocr_text)
 ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 ocr_text.rstrip()
-print(ocr_text)
 entry_paragraphs = ocr_text.split("\n\n")
 
 entries = []
