@@ -6,7 +6,7 @@
 
 import re
 
-FIRST_ENTRY_NBR = 789           # First entry number to parse.
+FIRST_ENTRY_NBR = 789           # First entry number to parse. Used to check for failed entries.
 LAST_ENTRY_NBR = 1150           # Last entry number to parse. Used to check for failed entries.
 OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
 
