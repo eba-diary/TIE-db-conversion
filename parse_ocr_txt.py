@@ -110,7 +110,7 @@ for entry_index, entry in enumerate(entries):
         titles.remove(title_confidences[title_end_index][0]) # remove the best match from this list to reduce runtime
     print("Separated titles and publishing info of {0}/{1} entries".format(entry_index + 1, len(entries)))
 
-print("Saving output as," OUTPUT_FILENAME)
+print("Saving output as", OUTPUT_FILENAME)
 with open(OUTPUT_FILENAME, 'w') as output:
     json.dump(entries, output)
 
