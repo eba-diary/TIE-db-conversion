@@ -115,7 +115,7 @@ for entry_index, entry in enumerate(entries):
         publishing_info = " ".join(words[title_end_index:])
         entries[entry_index]["works"][work_index]["title"] = final_title
         entries[entry_index]["works"][work_index]["publishing_info"] = publishing_info
-        titles.remove(title_confidences[title_end_index][0]) # remove the best match from this list to reduce runtime
+        titles.remove(title_confidences[title_end_index][0]) # remove the best match from the list of possible titles to reduce runtime
     print("Separated titles and publishing info of {0}/{1} entries".format(entry_index + 1, len(entries)))
 
 print("Saving output as", OUTPUT_FILENAME)
