@@ -28,6 +28,7 @@ ocr_text = re.sub(r"\n{3,}", "\n\n", ocr_text)
 ocr_text.rstrip()
 entry_paragraphs = ocr_text.split("\n\n")
 
+print("Starting to parse text")
 entries = []
 good_entry_nbrs = []
 entry_nbr = FIRST_ENTRY_NBR
@@ -89,7 +90,7 @@ while len(entry_paragraphs) > 0:
             else:
                 entry_paragraphs.pop(0)
 
-# separate the title of each work from its publishing information
+print("Separating the title of each work from its publishing information")
 titles = json.load(open(TITLES_FILENAME))
 for entry_index, entry in enumerate(entries):
     for work_index, work in enumerate(entry["works"]):
@@ -109,7 +110,7 @@ for entry_index, entry in enumerate(entries):
         titles.remove(title_confidences[title_end_index][0]) # remove the best match from this list to reduce runtime
     print("Separated titles and publishing info of {0}/{1} entries".format(entry_index + 1, len(entries)))
 
-# load them into a JSON file
+print("Saving output as," OUTPUT_FILENAME)
 with open(OUTPUT_FILENAME, 'w') as output:
     json.dump(entries, output)
 
