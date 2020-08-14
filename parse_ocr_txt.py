@@ -8,10 +8,11 @@ import re
 import json
 from difflib import SequenceMatcher
 
-FIRST_ENTRY_NBR = 789           # First entry number to parse. Used to check for failed entries.
-LAST_ENTRY_NBR = 1150           # Last entry number to parse. Used to check for failed entries.
-OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
-TITLES_FILENAME = "titles.json" # Filename of JSON list containing potential titles
+FIRST_ENTRY_NBR = 789               # First entry number to parse. Used to check for failed entries.
+LAST_ENTRY_NBR = 1150               # Last entry number to parse. Used to check for failed entries.
+OCR_FILENAME = "raw_ocr.txt"        # Filename of OCR text
+TITLES_FILENAME = "titles.json"     # Filename of JSON list containing potential titles
+OUTPUT_FILENAME = "ocr_parsed.json" # Filename of JSON output
 
 # keys of the dictionaries that represent Entries and Works respectively
 entry_keys = ["number", "name", "works", "travel_date", "nationality"]
@@ -88,9 +89,9 @@ while len(entry_paragraphs) > 0:
             else:
                 entry_paragraphs.pop(0)
 
-
+# separate the title of each work from its publishing information
 titles = json.load(open(TITLES_FILENAME))
-for entry_index, entry in enumerate(entries[:10]):
+for entry_index, entry in enumerate(entries):
     for work_index, work in enumerate(entry["works"]):
         title = work["title"]
         words = title.split(" ")
@@ -106,13 +107,16 @@ for entry_index, entry in enumerate(entries[:10]):
         entries[entry_index]["works"][work_index]["title"] = final_title
         entries[entry_index]["works"][work_index]["publishing_info"] = publishing_info
         titles.remove(title_confidences[title_end_index][0]) # remove the best match from this list to reduce runtime
-        
-        print(title)
-        print(final_title)
+    print("Separated titles and publishing info of {0}/{1} entries".format(entry_index + 1, len(entries)))
+
+# load them into a JSON file
+with open(OUTPUT_FILENAME, 'w') as output:
+    json.dump(entries, output)
 
 failed_entry_nbrs = [nbr for nbr in range(FIRST_ENTRY_NBR, LAST_ENTRY_NBR + 1) if nbr not in good_entry_nbrs]
 
-print("ok", len(entries))
-print("failed", len(failed_entry_nbrs))
+print("# of successful entries:", len(entries))
+print("# of entries failed:", len(failed_entry_nbrs))
+print("Entry numbers of failed entries:")
 print(failed_entry_nbrs)
 print("DONE")
