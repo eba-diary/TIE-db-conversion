@@ -121,6 +121,7 @@ for entry_index, entry in enumerate(entries):
 print("Saving output as", OUTPUT_FILENAME)
 with open(OUTPUT_FILENAME, 'w') as output:
     json.dump(entries, output)
+    output.close()
 
 failed_entry_nbrs = [nbr for nbr in range(FIRST_ENTRY_NBR, LAST_ENTRY_NBR + 1) if nbr not in good_entry_nbrs]
 
