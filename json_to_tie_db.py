@@ -7,6 +7,7 @@ into the travelers_in_egypt SQLite database
 
 import json
 import sqlite3
+import re
 
 DATABASE_FILE = "travelers_in_egypt.sqlite3"
 JSON_FILE = "ocr_parsed.json"
@@ -25,7 +26,7 @@ for entry in entries:
     for work in entry["works"]:
         publication = (
             entry["travel_date"].rstrip(),
-            work["title"].rstrip(),
+            re.sub(r"[ab]. ?", "", work["title"]).rstrip(),
             work["publishing_info"].rstrip(),
             work["annotation"].rstrip(),
             traveler_id
