@@ -5,14 +5,17 @@
 """
 
 import re
+import json
+from difflib import SequenceMatcher
 
 FIRST_ENTRY_NBR = 789           # First entry number to parse. Used to check for failed entries.
 LAST_ENTRY_NBR = 1150           # Last entry number to parse. Used to check for failed entries.
 OCR_FILENAME = "raw_ocr.txt"    # Filename of OCR text
+TITLES_FILENAME = "titles.json" # Filename of JSON list containing potential titles
 
 # keys of the dictionaries that represent Entries and Works respectively
 entry_keys = ["number", "name", "works", "travel_date", "nationality"]
-work_keys = ["title", "annotation"]
+work_keys = ["title", "publishing_info", "annotation"]
 
 ocr_file = open(OCR_FILENAME)
 ocr_text = ocr_file.read()
@@ -84,6 +87,28 @@ while len(entry_paragraphs) > 0:
                 entry_nbr = int(next_entry_nbr.group(0))
             else:
                 entry_paragraphs.pop(0)
+
+
+titles = json.load(open(TITLES_FILENAME))
+for entry_index, entry in enumerate(entries[:10]):
+    for work_index, work in enumerate(entry["works"]):
+        title = work["title"]
+        words = title.split(" ")
+        title_confidences = {}
+        for word_nbr in range(2 if len(words) > 2 else 1, len(words)): # start with 2 words if possible to avoid false positives
+            substring = " ".join(words[:word_nbr])
+            similarities = {title: SequenceMatcher(None, substring, title).ratio() for title in titles}
+            best_match = max(similarities, key=similarities.get)
+            title_confidences[word_nbr] = (best_match, similarities[best_match])
+        title_end_index = max(title_confidences, key=lambda title: title_confidences[title][1])
+        final_title = " ".join(words[:title_end_index])
+        publishing_info = " ".join(words[title_end_index:])
+        entries[entry_index]["works"][work_index]["title"] = final_title
+        entries[entry_index]["works"][work_index]["publishing_info"] = publishing_info
+        titles.remove(title_confidences[title_end_index][0]) # remove the best match from this list to reduce runtime
+        
+        print(title)
+        print(final_title)
 
 failed_entry_nbrs = [nbr for nbr in range(FIRST_ENTRY_NBR, LAST_ENTRY_NBR + 1) if nbr not in good_entry_nbrs]
 
