@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""parse_ocr_txt.py: Parse raw OCR'd text of Kalfatovik's Nile Notes of a Howadji
+"""parse_ocr_txt.py: Parse raw OCR'd text of Kalfatovik's Nile Notes of a Howadji as JSON
+
+The OCR text specifically comes from Internet Archive and was generated with DJVU
+https://archive.org/stream/nilenotesofhowad00kalf/nilenotesofhowad00kalf_djvu.txt
+It doesn't distinguish between titles of works and the publishing info of their works, so I had
+to extract the italicized text from a different OCR pass using ABBYY, and I stuck all of those
+in titles.json. Since the two OCRs have slightly different errors each, this led to the incredibly
+slow title extraction process below, since I have to fuzzy match bits and pieces of work titles
+against a huge list of possible titles.
 """
 
 import re
