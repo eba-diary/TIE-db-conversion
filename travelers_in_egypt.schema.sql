@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS "publications" (
 	"publisher"	TEXT,
 	"publication_place"	TEXT,
 	"publication_date"	TEXT,
+	"publisher_misc"	TEXT,
 	"summary"	TEXT,
 	"url"	TEXT,
 	"iiif"	TEXT,
