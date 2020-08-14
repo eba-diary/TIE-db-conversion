@@ -28,7 +28,7 @@ for entry in entries:
             entry["travel_date"].rstrip(),
             re.sub(r"[ab]. ?", "", work["title"]).rstrip(),
             work["publishing_info"].rstrip(),
-            work["annotation"].rstrip(),
+            re.sub(r"[ab]. ?", "", work["annotation"]).rstrip(),
             traveler_id
         )
         db.execute("""INSERT INTO publications (travel_dates, title, publisher_misc, summary, traveler_id)
