@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""csv_to_tie_db.py: Adds rows from the travelers_in_egypt .csv file to the .sqlite3 SQL database
+"""csv_to_tie_db.py: Adds rows from the travelogues .csv file to the .sqlite3 SQL database
 """
 
 import sqlite3
 import csv
 
-DATABASE_FILE = "travelers_in_egypt.sqlite3"
-CSV_FILE = "travelers_in_egypt.csv"
+DATABASE_FILE = "travelogues.sqlite3"
+CSV_FILE = "travelogues.csv"
 CSV_COLUMNS = [
     "DATE OF TRAVEL",
     "TITLE",
