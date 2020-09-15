@@ -23,13 +23,25 @@ def get_year(datetoken, get_min):
         get_min - gets the min if true, max if false
     """
     year = None
+    # regex groups: 1:(YYY-) 2:(YYYY-) 3:(YYYY) 4:(YYYY-YY) 5:(YYYY-YYYY)
     match = re.match(
-        r"(^[0-9]{3}-$)|(^[0-9]{4}\-$)|(^[0-9]{4}$)|(^[0-9]{4}-[0-9]{2}$|(^[0-9]{4}-[0-9]{4}$))",
+        r"(^[0-9]{3}-$)|(^[0-9]{4}\-$)|(^[0-9]{4}$)|(^[0-9]{4}-[0-9]{2}$)|(^[0-9]{4}-[0-9]{4}$)",
         datetoken
         )
-    if match:
-        partial_year = match.group(0)[:3].replace("-", "")
-        year = partial_year + ("0" if get_min else "9")
+    if match.group(1):
+        year = match.group(1)[:3].replace("-", "") + "0"
+    elif match.group(2):
+        year = match.group(2).replace("-", "")
+    elif match.group(3):
+        year = match.group(3)
+    elif match.group(4):
+        years = match.group(4).split("-")
+        if get_min:
+            year = years[0]
+        else:
+            year = years[0][:2] + years[1]
+    elif match.group(5):
+        year = match.group(5).split("-")[0 if get_min else 1]
     return year
 
 for publication in publications:
