@@ -8,7 +8,7 @@ the appropriate columns
 import sqlite3
 import re
 
-DATABASE_FILE = "travelogues.test.sqlite3"
+DATABASE_FILE = "travelogues.sqlite3"
 
 connection = sqlite3.connect(DATABASE_FILE)
 db = connection.cursor()
@@ -29,9 +29,15 @@ def get_year(datetoken, get_min):
         datetoken
         )
     if match.group(1):
-        year = match.group(1)[:3].replace("-", "") + "0"
+        if get_min:
+            year = match.group(1)[:3].replace("-", "")
+        else:
+            year = None
     elif match.group(2):
-        year = match.group(2).replace("-", "")
+        if get_min:
+            year = match.group(2).replace("-", "")
+        else:
+            year = None
     elif match.group(3):
         year = match.group(3)
     elif match.group(4):
