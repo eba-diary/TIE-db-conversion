@@ -11,7 +11,7 @@ https://reference.wolfram.com/language/WolframClientForPython/
 import sqlite3
 
 WOLFRAM_KERNEL_LOCATION = "/opt/Mathematica/SystemFiles/Kernel/Binaries/Linux-x86-64/WolframKernel"
-DATABASE_FILE = "travelogues.test.sqlite3"
+DATABASE_FILE = "travelogues.sqlite3"
 
 from wolframclient.evaluation import WolframLanguageSession
 from wolframclient.language import wl, wlexpr
