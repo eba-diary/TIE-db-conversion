@@ -5,6 +5,12 @@
 execute code that guesses the traveler's gender from their name. The guess is put in the gender
 column if it has null value. If the guess is indeterminate, it will not change the gender in the DB.
 
+If the program spits out
+    Incompatible variable type (Text) and variable value (First[{}]).
+    {} has zero length and no first element.
+over and over again, that's normal. Wolfram Language just wasn't able to detect a given name from
+the name in the DB. If this happens, there is no guess and the traveler in the DB is left alone.
+
 This requires Wolfram Client Library for Python and a Wolfram Kernel.
 https://reference.wolfram.com/language/WolframClientForPython/
 """
