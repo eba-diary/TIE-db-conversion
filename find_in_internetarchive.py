@@ -13,7 +13,7 @@ from json import JSONDecodeError
 import string
 import sqlite3
 
-DATABASE_FILE = "travelogues.test.sqlite3"
+DATABASE_FILE = "travelogues.sqlite3"
 
 connection = sqlite3.connect(DATABASE_FILE)
 db = connection.cursor()
