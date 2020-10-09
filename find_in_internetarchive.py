@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""find_in_internetarchive.py - Searches Internet Archive for publications in the database using
+their titles and author names. This gets stored in the ia_ident column. It also updates the iiif
+column with the presumed IIIF manifest link.
+
+If the ia_ident column already has a value, the publication is skipped and no changes will be made
+to its row.
+"""
 from internetarchive import search_items
 from json import JSONDecodeError
 import string
