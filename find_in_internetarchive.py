@@ -10,7 +10,7 @@ to its row.
 """
 from internetarchive import search_items
 from json import JSONDecodeError
-import string
+import re
 import sqlite3
 
 DATABASE_FILE = "travelogues.sqlite3"
@@ -32,8 +32,8 @@ for publication in publications:
     publication_id = publication[0]
     current_ident = publication[3]
     if current_ident == None and publication_id not in succeeded:
-        title = publication[1].translate(str.maketrans(string.punctuation, " "*len(string.punctuation)))
-        author = " OR ".join(publication[2].split(" "))
+        title = re.sub(r"[^\w\s]", "", publication[1])
+        author = " OR ".join(re.sub(r"[^\w\s]|[0-9]", "", publication[2]).split())
         results = search_items(f"title:({title}) AND creator:({author}) AND mediatype:(texts)", fields=["type"]).iter_as_items()
         try:
             ident = next(results).identifier
