@@ -13,7 +13,7 @@ from json import JSONDecodeError
 import re
 import sqlite3
 
-DATABASE_FILE = "travelogues.sqlite3"
+DATABASE_FILE = "travelogues.test.sqlite3"
 
 connection = sqlite3.connect(DATABASE_FILE)
 db = connection.cursor()
@@ -34,7 +34,7 @@ for publication in publications:
     if current_ident == None and publication_id not in succeeded:
         title = re.sub(r"[^\w\s]", "", publication[1])
         author = " OR ".join(re.sub(r"[^\w\s]|[0-9]", "", publication[2]).split())
-        results = search_items(f"title:({title}) AND creator:({author}) AND mediatype:(texts)", fields=["type"]).iter_as_items()
+        results = search_items(f"title:({title}) AND creator:({author}) AND mediatype:(texts) AND -access-restricted-item:(true)", fields=["type"]).iter_as_items()
         try:
             ident = next(results).identifier
             print(ident)
