@@ -32,7 +32,7 @@ for publication in publications:
     publication_id = publication[0]
     current_ident = publication[3]
     if current_ident == None and publication_id not in succeeded:
-        title = re.sub(r"[^\w\s]", " ", publication[1])
+        title = re.sub(r"[^\w\s']", " ", publication[1])
         author = " OR ".join(re.sub(r"[^\w\s]|[0-9]", "", publication[2]).split())
         results = search_items(f"title:({title}) AND creator:({author}) AND mediatype:(texts) AND -access-restricted-item:(true)", fields=["type"]).iter_as_items()
         try:
